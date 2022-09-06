@@ -1,18 +1,21 @@
 const extractProjectsMetadata = ({ results }) => {
   const metadata = [];
-  //console.log(results);
+  const beautified = [];
 
   results.forEach((result, index) => {
     metadata.push({ index, id: result.id, name: result.name });
+    beautified.push(
+      `${result.id}|${result.name} (${result.type})|By: ${
+        result.creator && result.creator.email
+      }`
+    );
   });
 
-  return metadata;
+  return { metadata, beautified };
 };
 
-const extractProjectId = (selected, metadata) => {
-  const project = metadata.find((data) => data.name === selected);
-
-  return project.id;
+const extractProjectId = (selected) => {
+  return selected.split("|")[0];
 };
 
 module.exports = {
