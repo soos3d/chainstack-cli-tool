@@ -12,6 +12,28 @@ const getNetworkConfig = (protocol) => {
   }
 };
 
+const extractNetworkData = ({ results }) => {
+  const networkData = [];
+  const beautified = [];
+
+  results.forEach((network, index) => {
+    networkData.push({ index, id: network.id, name: network.name });
+    beautified.push(
+      `${network.id}|${network.name} (${network.protocol})|By: ${
+        network.creator && network.creator.email
+      }`
+    );
+  });
+
+  return { networkData, beautified };
+};
+
+const extractNetworkId = (networkSelected) => {
+  return networkSelected.split("|")[0];
+};
+
 module.exports = {
   getNetworkConfig,
+  extractNetworkData,
+  extractNetworkId,
 };

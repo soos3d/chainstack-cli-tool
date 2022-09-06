@@ -1,10 +1,20 @@
 const inquirer = require("inquirer");
-const { getNetworkConfig } = require("../helpers/network");
+const {
+  getNetworkConfig,
+  extractNetworkData,
+  extractNetworkId,
+} = require("../helpers/network");
 const {
   extractProjectsMetadata,
   extractProjectId,
 } = require("../helpers/project");
-const { listAllNetworks, createNetwork } = require("../requests/network");
+const {
+  listAllNetworks,
+  createNetwork,
+  retrieveNetwork,
+  updateNetwork,
+  deleteNetwork,
+} = require("../requests/network");
 const { listAllProjects } = require("../requests/project");
 const {
   buildProviderPrompt,
@@ -19,7 +29,13 @@ const getNetworkSelection = async (token) => {
       type: "list",
       name: "networkSelection",
       message: "Select the request to perform",
-      choices: ["List all networks (GET)", "Create network (POST)"],
+      choices: [
+        "List all networks (GET)",
+        "Create network (POST)",
+        "Retrieve network (GET)",
+        "Update network (PATCH)",
+        "Delete network (DELETE)",
+      ],
     },
   ]);
 
@@ -30,7 +46,7 @@ const getProjectSelection = async (metadata) => {
   const { projectSelection } = await inquirer.prompt([
     {
       type: "list",
-      message: "Select a project to create the network on",
+      message: "Select a project to create the network on: ",
       name: "projectSelection",
       choices: metadata,
     },
@@ -64,7 +80,7 @@ const getCreateNetwork = async () => {
     },
     {
       type: "text",
-      message: "Enter a name for the network",
+      message: "Enter a name for the network: ",
       name: "name",
     },
   ]);
@@ -77,7 +93,7 @@ const getInitialNodes = async (protocol, projectId) => {
     {
       type: "text",
       name: "name",
-      message: "Please provide a name for the node",
+      message: "Please provide a name for the node: ",
     },
     buildProviderPrompt(),
   ]);
@@ -101,6 +117,27 @@ const getInitialNodes = async (protocol, projectId) => {
   }
 
   return { name, provider, region, type, configuration, addNew };
+};
+
+const getSelectNetwork = async (networks) => {
+  return await inquirer.prompt([
+    {
+      type: "list",
+      name: "networkSelected",
+      message: "Select a network: ",
+      choices: networks,
+    },
+  ]);
+};
+
+const getNetworkName = async () => {
+  return await inquirer.prompt([
+    {
+      type: "text",
+      name: "name",
+      message: "Please enter a new name for the selected network: ",
+    },
+  ]);
 };
 
 const initNodes = async (protocol, projectId) => {
@@ -133,6 +170,18 @@ const processNetworkSelection = async (networkSelection, token) => {
   if (networkSelection.includes("Create")) {
     await processCreateNetwork(token);
   }
+
+  if (networkSelection.includes("Retrieve")) {
+    await processRetrieveNetwork(token);
+  }
+
+  if (networkSelection.includes("Update")) {
+    await processUpdateNetwork(token);
+  }
+
+  if (networkSelection.includes("Delete")) {
+    await processDeleteNetwork(token);
+  }
 };
 
 const processListNetworks = async (token) => {
@@ -144,12 +193,10 @@ const processListNetworks = async (token) => {
 const processCreateNetwork = async (token) => {
   // TODO: GET ALL PROJECTS and show id, name, and creator
   const projects = await listAllProjects(token);
-  const metadata = extractProjectsMetadata(projects);
+  const { metadata, beautified } = extractProjectsMetadata(projects);
 
-  console.log(metadata);
-
-  const projectSelected = await getProjectSelection(metadata);
-  const projectId = extractProjectId(projectSelected, metadata);
+  const projectSelected = await getProjectSelection(beautified);
+  const projectId = extractProjectId(projectSelected);
 
   const { protocol, name } = await getCreateNetwork();
 
@@ -164,6 +211,44 @@ const processCreateNetwork = async (token) => {
     nodes,
   });
   console.log("Network Creation: ", res);
+};
+
+const processRetrieveNetwork = async (token) => {
+  const networks = await listAllNetworks(token);
+
+  const { networkData, beautified } = extractNetworkData(networks);
+
+  const { networkSelected } = await getSelectNetwork(beautified);
+  const networkId = extractNetworkId(networkSelected);
+
+  const response = await retrieveNetwork(token, networkId);
+  console.log(response);
+};
+
+const processUpdateNetwork = async (token) => {
+  const networks = await listAllNetworks(token);
+
+  const { networkData, beautified } = extractNetworkData(networks);
+
+  const { networkSelected } = await getSelectNetwork(beautified);
+  const networkId = extractNetworkId(networkSelected);
+
+  const { name } = await getNetworkName();
+
+  const response = await updateNetwork(token, { name }, networkId);
+  console.log(response);
+};
+
+const processDeleteNetwork = async (token) => {
+  const networks = await listAllNetworks(token);
+
+  const { networkData, beautified } = extractNetworkData(networks);
+
+  const { networkSelected } = await getSelectNetwork(beautified);
+  const networkId = extractNetworkId(networkSelected);
+
+  const response = await deleteNetwork(token, networkId);
+  console.log(response);
 };
 
 module.exports = {
