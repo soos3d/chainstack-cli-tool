@@ -4,14 +4,19 @@ A tool written in javascript for interacting with [Chainstack's api](https://doc
 
 Currently allow to:
 
-- List all Networks inside an organization
-- Create Networks
+- Perform all network requests:
+  - List all networks
+  - Create Network
+  - Retrieve Network
+  - Update Network (only on consortium projects)
+  - Delete Network
 
 Requirements:
 
 - An api key from Chainstack. [Get your api key](https://docs.chainstack.com/platform/create-an-api-key).
 
 Instructions:
+
 ```
 git clone https://github.com/yieniggu/chainstack-cli-tool
 cd chainstack-cli-tool
