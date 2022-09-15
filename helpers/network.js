@@ -17,9 +17,14 @@ const extractNetworkData = ({ results }) => {
   const beautified = [];
 
   results.forEach((network, index) => {
-    networkData.push({ index, id: network.id, name: network.name });
+    networkData.push({
+      index,
+      id: network.id,
+      name: network.name,
+      protocol: network.protocol,
+    });
     beautified.push(
-      `${network.id}|${network.name} (${network.protocol})|By: ${
+      `[${index}]|${network.id}|${network.name} (${network.protocol})|By: ${
         network.creator && network.creator.email
       }`
     );
@@ -28,12 +33,20 @@ const extractNetworkData = ({ results }) => {
   return { networkData, beautified };
 };
 
+const extractNetworkProtocol = (networkData, networkSelected) => {
+  const pos = networkSelected.split("|")[0];
+  const index = pos.substring(1, pos.length - 1);
+
+  return networkData[index].protocol;
+};
+
 const extractNetworkId = (networkSelected) => {
-  return networkSelected.split("|")[0];
+  return networkSelected.split("|")[1];
 };
 
 module.exports = {
   getNetworkConfig,
   extractNetworkData,
   extractNetworkId,
+  extractNetworkProtocol,
 };

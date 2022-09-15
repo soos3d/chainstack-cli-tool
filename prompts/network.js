@@ -16,11 +16,13 @@ const {
   deleteNetwork,
 } = require("../requests/network");
 const { listAllProjects } = require("../requests/project");
+const { getSelectNetwork } = require("./common");
 const {
   buildProviderPrompt,
   buildRegionPrompt,
   buildTypePrompt,
   buildConfigPrompt,
+  buildNamePrompt,
 } = require("./node");
 
 const getNetworkSelection = async (token) => {
@@ -90,11 +92,7 @@ const getCreateNetwork = async () => {
 
 const getInitialNodes = async (protocol, projectId) => {
   const { name, provider } = await inquirer.prompt([
-    {
-      type: "text",
-      name: "name",
-      message: "Please provide a name for the node: ",
-    },
+    buildNamePrompt(),
     buildProviderPrompt(),
   ]);
 
@@ -117,17 +115,6 @@ const getInitialNodes = async (protocol, projectId) => {
   }
 
   return { name, provider, region, type, configuration, addNew };
-};
-
-const getSelectNetwork = async (networks) => {
-  return await inquirer.prompt([
-    {
-      type: "list",
-      name: "networkSelected",
-      message: "Select a network: ",
-      choices: networks,
-    },
-  ]);
 };
 
 const getNetworkName = async () => {
