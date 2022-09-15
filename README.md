@@ -16,7 +16,7 @@ Currently allow to:
   - List all nodes
   - Create Nodes (only shared nodes)
   - Retrieve Nodes
-  - Update Nodes (only on consortium projects)
+  - Update Nodes
   - Delete Nodes
 
 Requirements:
