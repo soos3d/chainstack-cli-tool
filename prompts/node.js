@@ -1,3 +1,20 @@
+const inquirer = require("inquirer");
+const {
+  extractNetworkData,
+  extractNetworkId,
+  extractNetworkProtocol,
+} = require("../helpers/network");
+const { extractNodeData, extractNodeId } = require("../helpers/node");
+const { listAllNetworks } = require("../requests/network");
+const {
+  listAllNodes,
+  createNode,
+  retrieveNode,
+  updateNode,
+  deleteNode,
+} = require("../requests/node");
+const { getSelectNetwork } = require("./common");
+
 const SHARED_NETWORKS = [
   "ethereum",
   "polygon-pos",
@@ -17,6 +34,47 @@ const ARCHIVE_NETWORKS = [
   "tezos",
   "bitcoin",
 ];
+
+const getNodeSelection = async (token) => {
+  const { nodeSelection } = await inquirer.prompt([
+    {
+      type: "list",
+      name: "nodeSelection",
+      message: "Select the request to perform",
+      choices: [
+        "List all Nodes (GET)",
+        "Create Node (POST)",
+        "Retrieve Node (GET)",
+        "Update Node (PATCH)",
+        "Delete Node (DELETE)",
+      ],
+    },
+  ]);
+
+  processNodeSelection(nodeSelection, token);
+};
+
+const processNodeSelection = async (nodeSelection, token) => {
+  if (nodeSelection.includes("List")) {
+    await processListNodes(token);
+  }
+
+  if (nodeSelection.includes("Create")) {
+    await processCreateNode(token);
+  }
+
+  if (nodeSelection.includes("Retrieve")) {
+    await processRetrieveNode(token);
+  }
+
+  if (nodeSelection.includes("Update")) {
+    await processUpdateNode(token);
+  }
+
+  if (nodeSelection.includes("Delete")) {
+    await processDeleteNode(token);
+  }
+};
 
 const buildTypePrompt = (protocol) => {
   choices = ["dedicated"];
@@ -71,9 +129,126 @@ const buildConfigPrompt = (protocol) => {
   }
 };
 
+const buildNamePrompt = () => {
+  return {
+    type: "text",
+    name: "name",
+    message: "Please provide a name for the node: ",
+  };
+};
+
+const getCreateNode = async (protocol) => {
+  const { name, provider } = await inquirer.prompt([
+    buildNamePrompt(),
+    buildProviderPrompt(),
+  ]);
+
+  const { region, type, archive } = await inquirer.prompt([
+    buildRegionPrompt(provider),
+    buildTypePrompt(protocol),
+    buildConfigPrompt(protocol),
+  ]);
+
+  return { name, provider, region, type, configuration: { archive } };
+};
+
+const getSelectNode = async (nodes) => {
+  return await inquirer.prompt([
+    {
+      type: "list",
+      name: "nodeSelected",
+      message: "Select a node: ",
+      choices: nodes,
+    },
+  ]);
+};
+
+const getNodeName = async () => {
+  return await inquirer.prompt([buildNamePrompt()]);
+};
+
+const processListNodes = async (token) => {
+  const nodes = await listAllNodes(token);
+
+  console.log("Nodes: ", nodes);
+};
+
+const processCreateNode = async (token) => {
+  const networks = await listAllNetworks(token);
+
+  const { networkData, beautified } = extractNetworkData(networks);
+
+  // select a network to create the node in
+  const { networkSelected } = await getSelectNetwork(beautified);
+
+  const protocol = extractNetworkProtocol(networkData, networkSelected);
+
+  const networkId = extractNetworkId(networkSelected);
+
+  // get node creation options
+  const { name, provider, region, type, configuration } = await getCreateNode(
+    protocol
+  );
+
+  const response = await createNode(
+    {
+      name,
+      network: networkId,
+      provider,
+      region,
+      type,
+      role: "peer",
+      configuration,
+    },
+    token
+  );
+
+  console.log("Node creation: ", response);
+};
+
+const processRetrieveNode = async (token) => {
+  const nodes = await listAllNodes(token);
+
+  const { nodeData, beautified } = extractNodeData(nodes);
+
+  const { nodeSelected } = await getSelectNode(beautified);
+  const nodeId = extractNodeId(nodeSelected);
+
+  const response = await retrieveNode(nodeId, token);
+  console.log(response);
+};
+
+const processUpdateNode = async (token) => {
+  const nodes = await listAllNodes(token);
+
+  const { nodeData, beautified } = extractNodeData(nodes);
+
+  const { nodeSelected } = await getSelectNode(beautified);
+  const nodeId = extractNodeId(nodeSelected);
+
+  const { name } = await getNodeName();
+
+  const response = await updateNode(name, nodeId, token);
+  console.log(response);
+};
+
+const processDeleteNode = async (token) => {
+  const nodes = await listAllNodes(token);
+
+  const { nodeData, beautified } = extractNodeData(nodes);
+
+  const { nodeSelected } = await getSelectNode(beautified);
+  const nodeId = extractNodeId(nodeSelected);
+
+  const response = await deleteNode(nodeId, token);
+  response && console.log(response);
+};
+
 module.exports = {
+  getNodeSelection,
   buildRegionPrompt,
   buildTypePrompt,
   buildProviderPrompt,
   buildConfigPrompt,
+  buildNamePrompt,
 };

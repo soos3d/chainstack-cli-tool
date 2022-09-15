@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const { getNetworkSelection } = require("./network");
+const { getNodeSelection } = require("./node");
 
 let API_KEY;
 
@@ -21,7 +22,7 @@ const getMainSelection = async () => {
       type: "list",
       name: "mainOption",
       message: "Select an option from the Chainstack API",
-      choices: ["Network Requests"],
+      choices: ["Network Requests", "Node Requests"],
     },
   ]);
 
@@ -31,6 +32,10 @@ const getMainSelection = async () => {
 const processmainSelection = async (mainOption) => {
   if (mainOption.includes("Network")) {
     getNetworkSelection(API_KEY);
+  }
+
+  if (mainOption.includes("Node")) {
+    getNodeSelection(API_KEY);
   }
 };
 
