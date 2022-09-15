@@ -5,11 +5,19 @@ A tool written in javascript for interacting with [Chainstack's api](https://doc
 Currently allow to:
 
 - Perform all network requests:
+
   - List all networks
-  - Create Network
+  - Create Network (only shared nodes)
   - Retrieve Network
   - Update Network (only on consortium projects)
   - Delete Network
+
+- Perform all node requests:
+  - List all nodes
+  - Create Nodes (only shared nodes)
+  - Retrieve Nodes
+  - Update Nodes (only on consortium projects)
+  - Delete Nodes
 
 Requirements:
 
