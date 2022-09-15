@@ -22,8 +22,10 @@ const fetchWithToken = async (endpoint, data, token, method = "get") => {
       });
     }
   } catch (error) {
-    console.error(error);
-    return null;
+    return {
+      status: error.response.status,
+      message: `[ERROR] ${error.response.data.error.code}: ${error.response.data.error.message}`,
+    };
   }
 };
 

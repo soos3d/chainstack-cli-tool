@@ -4,7 +4,7 @@ const listAllNetworks = async (token) => {
   const response = await fetchWithToken("networks", "", token);
 
   if (response) {
-    return response.data;
+    return response.data ? response.data : response;
   }
 
   return null;
@@ -15,7 +15,7 @@ const createNetwork = async (token, data) => {
   //console.log(data);
 
   if (response) {
-    return response.data;
+    return response.data ? response.data : response;
   }
 
   return null;
@@ -25,7 +25,7 @@ const retrieveNetwork = async (token, networkId) => {
   const response = await fetchWithToken(`networks/${networkId}`, "", token);
 
   if (response) {
-    return response.data;
+    return response.data ? response.data : response;
   }
 
   return null;
@@ -40,7 +40,7 @@ const updateNetwork = async (token, data, networkId) => {
   );
 
   if (response) {
-    return response.data;
+    return response.data ? response.data : response;
   }
 
   return null;
@@ -55,7 +55,7 @@ const deleteNetwork = async (token, networkId) => {
   );
 
   if (response) {
-    return response.data;
+    return response.data ? response.data : response;
   }
 
   return null;
