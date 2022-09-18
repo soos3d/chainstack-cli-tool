@@ -49,7 +49,9 @@ const deleteNode = async (nodeId, token) => {
   const response = await fetchWithToken(`nodes/${nodeId}`, "", token, "delete");
 
   if (response) {
-    return response.data ? response.data : response;
+    return response.status === 204
+      ? `Project ${id} deleted`
+      : `${response.status}: ${response.statusText}`;
   }
 
   return null;
