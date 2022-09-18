@@ -1,4 +1,5 @@
 const inquirer = require("inquirer");
+const { getIdentitySelection } = require("./identity");
 const { getNetworkSelection } = require("./network");
 const { getNodeSelection } = require("./node");
 const { getOrganizationSelection } = require("./organization");
@@ -29,6 +30,7 @@ const getMainSelection = async () => {
         "Project Requests",
         "Network Requests",
         "Node Requests",
+        "Identity Requests",
       ],
     },
   ]);
@@ -51,6 +53,10 @@ const processmainSelection = async (mainOption) => {
 
   if (mainOption.includes("Node")) {
     getNodeSelection(API_KEY);
+  }
+
+  if (mainOption.includes("Identity")) {
+    getIdentitySelection(API_KEY);
   }
 };
 

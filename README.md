@@ -12,7 +12,7 @@ Currently allow to:
 - Perform all project requests:
 
   - List all projects
-  - Create Project (only shared nodes)
+  - Create Project
   - Retrieve Project
   - Update Project (only on consortium projects)
   - Delete Project
@@ -33,6 +33,15 @@ Currently allow to:
   - Retrieve Nodes
   - Update Nodes
   - Delete Nodes
+
+- Perform all identity requests:
+
+  - List all Identities
+  - Create Identities
+  - Retrieve Identities
+  - Update Identities
+  - Delete Identities
+    -Export Identities
 
 Requirements:
 
