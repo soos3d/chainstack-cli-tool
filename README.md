@@ -4,6 +4,11 @@ A tool written in javascript for interacting with [Chainstack's api](https://doc
 
 Currently allow to:
 
+- Perform all organization requests:
+
+  - Get organization name and id
+  - Update organization name
+
 - Perform all network requests:
 
   - List all networks
@@ -13,6 +18,7 @@ Currently allow to:
   - Delete Network
 
 - Perform all node requests:
+
   - List all nodes
   - Create Nodes (only shared nodes)
   - Retrieve Nodes
