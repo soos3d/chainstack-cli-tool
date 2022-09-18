@@ -9,6 +9,15 @@ Currently allow to:
   - Get organization name and id
   - Update organization name
 
+- Perform all project requests:
+
+  - List all projects
+  - Create Project (only shared nodes)
+  - Retrieve Project
+  - Update Project (only on consortium projects)
+  - Delete Project
+  - Retrieve project members
+
 - Perform all network requests:
 
   - List all networks

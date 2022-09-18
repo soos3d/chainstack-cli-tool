@@ -5,7 +5,7 @@ const extractProjectsMetadata = ({ results }) => {
   results.forEach((result, index) => {
     metadata.push({ index, id: result.id, name: result.name });
     beautified.push(
-      `${result.id}|${result.name} (${result.type})|By: ${
+      `[${index}]|${result.id}|${result.name} (${result.type})|By: ${
         result.creator && result.creator.email
       }`
     );
@@ -15,7 +15,7 @@ const extractProjectsMetadata = ({ results }) => {
 };
 
 const extractProjectId = (selected) => {
-  return selected.split("|")[0];
+  return selected.split("|")[1];
 };
 
 module.exports = {

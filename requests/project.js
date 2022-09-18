@@ -20,4 +20,53 @@ const createProject = async (token, data) => {
   return null;
 };
 
-module.exports = { listAllProjects };
+const retrieveProject = async (token, id) => {
+  const response = await fetchWithToken(`projects/${id}`, "", token);
+
+  if (response) {
+    return response.data ? response.data : response;
+  }
+
+  return null;
+};
+
+const updateProject = async (token, id, { name, description }) => {
+  const response = await fetchWithToken(`projects/${id}`, "", token);
+
+  if (response) {
+    return response.data ? response.data : response;
+  }
+
+  return null;
+};
+
+const deleteProject = async (token, id) => {
+  const response = await fetchWithToken(`projects/${id}`, "", token, "delete");
+
+  if (response) {
+    return response.status === 204
+      ? `Project ${id} deleted`
+      : `${response.status}: ${response.statusText}`;
+  }
+
+  return null;
+};
+
+const retrieveProjectMembers = async (token, id) => {
+  const response = await fetchWithToken(`projects/${id}/members`, "", token);
+
+  if (response) {
+    return response.data ? response.data : response;
+  }
+
+  return null;
+};
+
+module.exports = {
+  listAllProjects,
+  createProject,
+  retrieveProject,
+  updateProject,
+  deleteProject,
+  retrieveProjectMembers,
+};
