@@ -16,7 +16,7 @@ const {
   deleteNetwork,
 } = require("../requests/network");
 const { listAllProjects } = require("../requests/project");
-const { getSelectNetwork } = require("./common");
+const { getSelectNetwork, getSelectProject } = require("./common");
 const {
   buildProviderPrompt,
   buildRegionPrompt,
@@ -42,19 +42,6 @@ const getNetworkSelection = async (token) => {
   ]);
 
   processNetworkSelection(networkSelection, token);
-};
-
-const getProjectSelection = async (metadata) => {
-  const { projectSelection } = await inquirer.prompt([
-    {
-      type: "list",
-      message: "Select a project to create the network on: ",
-      name: "projectSelection",
-      choices: metadata,
-    },
-  ]);
-
-  return projectSelection;
 };
 
 const getCreateNetwork = async () => {
@@ -182,7 +169,7 @@ const processCreateNetwork = async (token) => {
   const projects = await listAllProjects(token);
   const { metadata, beautified } = extractProjectsMetadata(projects);
 
-  const projectSelected = await getProjectSelection(beautified);
+  const projectSelected = await getSelectProject(beautified);
   const projectId = extractProjectId(projectSelected);
 
   const { protocol, name } = await getCreateNetwork();

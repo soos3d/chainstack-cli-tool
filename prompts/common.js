@@ -11,6 +11,20 @@ const getSelectNetwork = async (networks) => {
   ]);
 };
 
+const getSelectProject = async (metadata) => {
+  const { projectSelection } = await inquirer.prompt([
+    {
+      type: "list",
+      message: "Select a project to create the network on: ",
+      name: "projectSelection",
+      choices: metadata,
+    },
+  ]);
+
+  return projectSelection;
+};
+
 module.exports = {
   getSelectNetwork,
+  getSelectProject,
 };
