@@ -1,4 +1,5 @@
 const inquirer = require("inquirer");
+const { getApplicationSelection } = require("./application");
 const { getIdentitySelection } = require("./identity");
 const { getNetworkSelection } = require("./network");
 const { getNodeSelection } = require("./node");
@@ -26,6 +27,7 @@ const getMainSelection = async () => {
       name: "mainOption",
       message: "Select an option from the Chainstack API",
       choices: [
+        "Application Requests",
         "Organization Requests",
         "Project Requests",
         "Network Requests",
@@ -39,6 +41,10 @@ const getMainSelection = async () => {
 };
 
 const processmainSelection = async (mainOption) => {
+  if (mainOption.includes("Application")) {
+    getApplicationSelection(API_KEY);
+  }
+
   if (mainOption.includes("Organization")) {
     getOrganizationSelection(API_KEY);
   }
