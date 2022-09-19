@@ -9,6 +9,13 @@ Currently allow to:
   - Get organization name and id
   - Update organization name
 
+- Perform application requests:
+
+  - List all applications
+  - Create application
+  - Retrieve application
+  - Delete application
+
 - Perform all project requests:
 
   - List all projects
