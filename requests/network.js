@@ -56,7 +56,7 @@ const deleteNetwork = async (token, networkId) => {
 
   if (response) {
     return response.status === 204
-      ? `Project ${id} deleted`
+      ? `Network ${id} deleted`
       : `${response.status}: ${response.statusText}`;
   }
 

@@ -50,7 +50,7 @@ const deleteNode = async (nodeId, token) => {
 
   if (response) {
     return response.status === 204
-      ? `Project ${id} deleted`
+      ? `Node ${id} deleted`
       : `${response.status}: ${response.statusText}`;
   }
 
