@@ -34,7 +34,7 @@ The following requests are supported and available from the cli. Click on it to 
 - Perform all project requests:
 
   - List all projects
-  - Create Project
+  - [Create Project](examples/create-project/README.md)
   - Retrieve Project
   - Update Project (only on consortium projects)
   - Delete Project

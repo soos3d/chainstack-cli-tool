@@ -24,7 +24,7 @@ If we check the documentation reference for [creating a network](https://docs.ch
 
 ![004](assets/004.png)
 
-Now, you will be prompted to select all of this parameters as inputs to succesfully create a new ethereum network. First, a **project is needed**, since a project ID is required as param. Projects list will vary depending on the organization you are in, so be sure to **create a new project before creating networks**.
+Now, you will be prompted to select all of this parameters as inputs to succesfully create a new ethereum network. First, a **project is needed**, since a project ID is required as param. Projects list will vary depending on the organization you are in, so be sure to [create a new project](../create-project/README.md) **before creating networks**.
 
 ![005](assets/005.png)
 
