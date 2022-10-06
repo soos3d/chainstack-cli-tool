@@ -2,7 +2,7 @@
 
 A tool written in javascript for interacting with [Chainstack's api](https://docs.chainstack.com/api/reference/) from the command line interface.
 
-Currently allow to:
+The following requests are supported and available from the cli. Click on it to watch an example on how to perform it through the cli-tool.
 
 - Perform all organization requests:
 
@@ -28,7 +28,7 @@ Currently allow to:
 - Perform all network requests:
 
   - List all networks
-  - Create Network (only shared nodes)
+  - [Create Network (only shared nodes)](examples/create-network/README.md)
   - Retrieve Network
   - Update Network (only on consortium projects)
   - Delete Network
