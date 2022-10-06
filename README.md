@@ -51,7 +51,7 @@ The following requests are supported and available from the cli. Click on it to 
 - Perform all node requests:
 
   - List all nodes
-  - Create Nodes (only shared nodes)
+  - [Create Nodes (only shared nodes)](examples/create-node/README.md)
   - Retrieve Nodes
   - Update Nodes
   - Delete Nodes
