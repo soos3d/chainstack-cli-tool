@@ -1,4 +1,4 @@
-# Creating a new Ethereum network with an initial full node:
+# Creating a new Ethereum network
 
 ---
 
@@ -10,7 +10,7 @@ node index
 
 A new input will be prompted asking for your Chainstack's api key. You can get yours from [Chainstack console](https://console.chainstack.com/user/settings/api-keys).
 
-![001](assets/001.png)
+![001](../api-key.png)
 
 After that, you can get to choose any of the requests specified in the [api reference documentation](https://docs.chainstack.com/api/reference/):
 
@@ -62,7 +62,7 @@ And thats it! If everything goes well, you shall see this kind of output from th
 
 ![014](assets/014.png)
 
-Now if we go to the [Chainstack's console]() we can look for our network and it's initial full node.
+Now if we go to the [Chainstack's console](https://console.chainstack.com/) we can look for our network and it's initial full node.
 
 ![015](assets/015.png)
 
