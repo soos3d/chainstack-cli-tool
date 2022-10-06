@@ -1,4 +1,6 @@
-### Creating a mainnet full node:
+# Creating a new Ethereum network with an initial full node:
+
+---
 
 Lets say we want to create a new Ethereum network, initially with a full node. First, in the project's root folder, open a terminal and run:
 
