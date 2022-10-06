@@ -77,10 +77,12 @@ const processNodeSelection = async (nodeSelection, token) => {
 };
 
 const buildTypePrompt = (protocol) => {
-  choices = ["dedicated"];
-  if (SHARED_NETWORKS.includes(protocol)) {
-    choices.push("shared");
-  }
+  choices = ["shared"];
+  // if (SHARED_NETWORKS.includes(protocol)) {
+  //   choices.push("shared");
+  // } else {
+  //   choices.push("dedicated");
+  // }
 
   return {
     type: "list",
