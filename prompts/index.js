@@ -5,14 +5,12 @@ const { getNetworkSelection } = require("./network");
 const { getNodeSelection } = require("./node");
 const { getOrganizationSelection } = require("./organization");
 const { getProjectSelection } = require("./project");
+require('dotenv').config()
 
 let API_KEY;
 
 const getAPIKey = async () => {
-  const { apiKey } = await inquirer.prompt([
-    { type: "text", name: "apiKey", message: "Please enter your api key" },
-  ]);
-
+  const apiKey = process.env.CHAINSTACK_API_KEY
   API_KEY = apiKey;
 
   if (apiKey) {

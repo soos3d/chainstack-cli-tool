@@ -1,16 +1,17 @@
 {
-  "name": "cli-api",
+  "name": "chainstack-cli-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "This tool allows you to interact with the Chainstack platform API to retrieve data related to your organization, projects, and nodes. You can also create new projects and deploy nodes from the CLI.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["chainstack","blockchain","infrastructure","nodes"],
+  "author": "Chainstack",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
+    "dotenv": "^16.0.3",
     "inquirer": "^8.2.4",
     "node-fetch": "^3.2.10"
   }
